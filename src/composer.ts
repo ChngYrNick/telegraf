@@ -820,10 +820,10 @@ function normalizeTriggers<C extends Context>(
     if (typeof trigger === 'function') {
       return trigger
     }
-    if (trigger instanceof RegExp) {
+    if (trigger instanceof RegExp || trigger.constructor.name === 'RegExp') {
       return (value = '') => {
-        trigger.lastIndex = 0
-        return trigger.exec(value)
+        (trigger as RegExp).lastIndex = 0
+        return (trigger as RegExp).exec(value)
       }
     }
     const regex = new RegExp(`^${escapeRegExp(trigger)}$`)
